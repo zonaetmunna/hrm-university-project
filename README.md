@@ -20,6 +20,82 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## HR Management System Components
+
+### EmployeeProfile
+
+The `EmployeeProfile` component is used to display and manage an employee's personal information, education, experience, skills, and documents.
+
+#### Features
+
+- Display employee personal information
+- View education history
+- View work experience
+- View skills and documents
+- Edit profile information through a dialog
+
+#### Usage
+
+```tsx
+import { EmployeeProfile } from "@/components/dashboard/employee/employee-profile";
+
+export default function EmployeeDashboard() {
+  return (
+    <div className="container mx-auto">
+      <EmployeeProfile />
+    </div>
+  );
+}
+```
+
+#### API Integration
+
+The component integrates with the following API endpoints:
+
+- `GET /api/employee/profile` - Fetches employee profile data
+- `PUT /api/employee/profile` - Updates employee profile data
+
+#### Data Structure
+
+The component expects the following data structure from the API:
+
+```typescript
+interface ProfileData {
+  name: string;
+  email: string;
+  phone?: string;
+  address?: string;
+  bio?: string;
+  avatar?: string;
+  initials?: string;
+  position?: string;
+  department?: string;
+  joinDate?: string;
+  education: Education[];
+  experience: Experience[];
+  skills: string[];
+  documents: Document[];
+}
+
+interface Education {
+  degree: string;
+  institution: string;
+  year: string;
+}
+
+interface Experience {
+  position: string;
+  company: string;
+  duration: string;
+}
+
+interface Document {
+  name: string;
+  type: string;
+  size: string;
+}
+```
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
