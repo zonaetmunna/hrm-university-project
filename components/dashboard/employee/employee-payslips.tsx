@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+ 
 "use client"
 
 import { format } from "date-fns"
@@ -19,7 +18,7 @@ import {
 } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
-// Mock Payslip data
+// Type definition for payslip
 type Payslip = {
   id: string
   period: string
@@ -29,80 +28,6 @@ type Payslip = {
   netAmount: number
   paymentMethod: string
   deductions: number
-}
-
-// Mock payslip data
-const mockPayslips: Payslip[] = [
-  {
-    id: "PAY-2023-12",
-    period: "December 2023",
-    issueDate: new Date(2023, 11, 31),
-    status: "Paid",
-    grossAmount: 5000,
-    netAmount: 3850,
-    paymentMethod: "Bank Transfer",
-    deductions: 1150,
-  },
-  {
-    id: "PAY-2023-11",
-    period: "November 2023",
-    issueDate: new Date(2023, 10, 30),
-    status: "Paid",
-    grossAmount: 5000,
-    netAmount: 3850,
-    paymentMethod: "Bank Transfer",
-    deductions: 1150,
-  },
-  {
-    id: "PAY-2023-10",
-    period: "October 2023",
-    issueDate: new Date(2023, 9, 31),
-    status: "Paid",
-    grossAmount: 5000,
-    netAmount: 3850,
-    paymentMethod: "Bank Transfer",
-    deductions: 1150,
-  },
-  {
-    id: "PAY-2023-09",
-    period: "September 2023",
-    issueDate: new Date(2023, 8, 30),
-    status: "Paid",
-    grossAmount: 5000,
-    netAmount: 3850,
-    paymentMethod: "Bank Transfer",
-    deductions: 1150,
-  },
-  {
-    id: "PAY-2023-08",
-    period: "August 2023",
-    issueDate: new Date(2023, 7, 31),
-    status: "Paid",
-    grossAmount: 5000,
-    netAmount: 3850,
-    paymentMethod: "Bank Transfer",
-    deductions: 1150,
-  },
-  {
-    id: "PAY-2023-07",
-    period: "July 2023",
-    issueDate: new Date(2023, 6, 31),
-    status: "Paid",
-    grossAmount: 5000,
-    netAmount: 3850,
-    paymentMethod: "Bank Transfer",
-    deductions: 1150,
-  }
-]
-
-// Mock earnings and deductions for current year
-const mockYearSummary = {
-  totalEarnings: 60000,
-  totalDeductions: 13800,
-  totalNetPay: 46200,
-  taxPaid: 7200,
-  insurancePaid: 3600,
-  pensionPaid: 3000
 }
 
 /**
@@ -117,7 +42,6 @@ const mockYearSummary = {
 export function EmployeePayslips() {
   const [payslips, setPayslips] = useState<Payslip[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
   const [year, setYear] = useState<string>(new Date().getFullYear().toString())
   const [yearSummary, setYearSummary] = useState({
     totalEarnings: 0,
@@ -128,6 +52,7 @@ export function EmployeePayslips() {
     pensionPaid: 0
   })
   const [availableYears, setAvailableYears] = useState<string[]>([])
+  const [error, setError] = useState<string | null>(null)
 
   // Fetch payslips data from API
   useEffect(() => {

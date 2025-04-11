@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+ 
+ 
 "use client"
 
 import { Badge } from "@/components/ui/badge"
@@ -111,7 +111,6 @@ interface AttendanceRecord {
  * @returns {JSX.Element} The employee attendance component
  */
 export function EmployeeAttendance() {
-  const [date, setDate] = useState<Date | undefined>(new Date())
   const [month, setMonth] = useState<string>(format(new Date(), 'MMMM yyyy'))
   const [attendanceData, setAttendanceData] = useState<AttendanceRecord[]>([])
   const [summary, setSummary] = useState({
@@ -133,7 +132,6 @@ export function EmployeeAttendance() {
     }
   })
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
   const [todayRecord, setTodayRecord] = useState<any>(null)
 
   // Fetch attendance data from API
@@ -192,9 +190,8 @@ export function EmployeeAttendance() {
       setTodayRecord(data.todayRecord)
       
     } catch (error) {
-      setError(error instanceof Error ? error.message : "An error occurred")
-      toast.error("Failed to load attendance data")
-    } finally {
+      const errorMessage = error instanceof Error ? error.message : "An error occurred"
+      toast.error(`Failed to load attendance data: ${errorMessage}`)
       setIsLoading(false)
     }
   }

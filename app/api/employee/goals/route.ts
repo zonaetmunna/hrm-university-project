@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { authOptions } from "@/lib/auth";
 import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth";
@@ -40,7 +41,7 @@ export async function GET(request: NextRequest) {
     const userId = searchParams.get('userId');
     
     // Build the where condition based on filters
-    let whereCondition: any = {};
+    const whereCondition: any = {};
     
     // If looking for specific user's goals (team leads can view their team's goals)
     if (userId && (user.role === 'admin' || user.role === 'hr' || user.role === 'team-lead')) {

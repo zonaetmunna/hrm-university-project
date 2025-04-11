@@ -1,3 +1,4 @@
+ 
 "use client"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -8,18 +9,18 @@ import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { format } from "date-fns"
 import {
-    AlertCircle,
-    BarChart2,
-    Calendar,
-    CheckCircle,
-    ChevronRight,
-    ClipboardList,
-    Clock,
-    CreditCard,
-    FileText,
-    UserPlus,
-    Users,
-    XCircle
+  AlertCircle,
+  BarChart2,
+  Calendar,
+  CheckCircle,
+  ChevronRight,
+  ClipboardList,
+  Clock,
+  CreditCard,
+  FileText,
+  UserPlus,
+  Users,
+  XCircle
 } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
@@ -62,7 +63,7 @@ export function HRDashboard() {
     setIsLoading(false)
 
     // Uncomment when API is ready
-    // fetchDashboardData()
+    fetchDashboardData()
   }, [])
 
   if (isLoading) {
@@ -83,7 +84,7 @@ export function HRDashboard() {
       <div>
         <h2 className="text-3xl font-bold tracking-tight">HR Dashboard</h2>
         <p className="text-muted-foreground">
-          Welcome back! Here's an overview of your HR department.
+          Welcome back! Here&apos;s an overview of your HR department.
         </p>
       </div>
 

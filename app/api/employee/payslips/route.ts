@@ -1,7 +1,24 @@
-import { authOptions } from "@/lib/auth"
-import { prisma } from "@/lib/prisma"
-import { getServerSession } from "next-auth"
-import { NextResponse } from "next/server"
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { NextResponse } from "next/server";
+
+// Add new interfaces for type safety
+interface PayslipWhereClause {
+  userId: string;
+  year?: number;
+}
+
+interface Payslip {
+  id: string;
+  year: number;
+  month: number;
+  basicSalary: number;
+  allowances: number;
+  deductions: number;
+  netSalary: number;
+  status: string;
+}
 
 /**
  * GET /api/employee/payslips
@@ -24,7 +41,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url)
     const yearParam = searchParams.get("year")
     
-    const whereClause: any = { userId }
+    const whereClause: PayslipWhereClause = { userId }
     
     // If year is specified, filter by year
     if (yearParam && !isNaN(Number(yearParam))) {
@@ -44,7 +61,7 @@ export async function GET(request: Request) {
     // Calculate year summary (totals for the filtered year or current year)
     const summaryYear = yearParam ? parseInt(yearParam, 10) : new Date().getFullYear()
     
-    const yearPayslips = payslips.filter(p => p.year === summaryYear)
+    const yearPayslips = payslips.filter((p: { year: number }) => p.year === summaryYear)
     
     const yearSummary = {
       year: summaryYear,
@@ -58,9 +75,9 @@ export async function GET(request: Request) {
     
     // Calculate totals
     if (yearPayslips.length > 0) {
-      yearSummary.totalEarnings = yearPayslips.reduce((sum, p) => sum + p.basicSalary + p.allowances, 0)
-      yearSummary.totalDeductions = yearPayslips.reduce((sum, p) => sum + p.deductions, 0)
-      yearSummary.totalNetPay = yearPayslips.reduce((sum, p) => sum + p.netSalary, 0)
+      yearSummary.totalEarnings = yearPayslips.reduce((sum: number, p: Payslip) => sum + p.basicSalary + p.allowances, 0)
+      yearSummary.totalDeductions = yearPayslips.reduce((sum: number, p: Payslip) => sum + p.deductions, 0)
+      yearSummary.totalNetPay = yearPayslips.reduce((sum: number, p: Payslip) => sum + p.netSalary, 0)
       
       // Assume tax is 40% of deductions, insurance 30%, and pension 30%
       yearSummary.taxPaid = yearSummary.totalDeductions * 0.4
@@ -69,7 +86,7 @@ export async function GET(request: Request) {
     }
     
     // Format payslips for better readability
-    const formattedPayslips = payslips.map(p => {
+    const formattedPayslips = payslips.map((p: Payslip) => {
       // Get month name
       const monthNames = [
         "January", "February", "March", "April", "May", "June",
@@ -95,7 +112,8 @@ export async function GET(request: Request) {
     })
     
     // Get available years for filtering
-    const availableYears = [...new Set(payslips.map(p => p.year))].sort((a, b) => b - a)
+    const availableYears = [...new Set(payslips.map((p: Payslip) => p.year))]
+      .sort((a, b) => (b as number) - (a as number));
     
     return NextResponse.json({
       payslips: formattedPayslips,

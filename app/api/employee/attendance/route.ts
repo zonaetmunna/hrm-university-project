@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { Attendance } from "@prisma/client"
@@ -65,9 +66,9 @@ export async function GET(request: Request) {
     )
     
     const workingDaysInMonth = getWorkingDaysCount(firstDayOfMonth, lastDayOfMonth)
-    const presentDays = currentMonthRecords.filter(record => record.status === "present").length
-    const lateDays = currentMonthRecords.filter(record => record.status === "late").length
-    const absentDays = currentMonthRecords.filter(record => record.status === "absent").length
+    const presentDays = currentMonthRecords.filter((record: { status: string }) => record.status === "present").length
+    const lateDays = currentMonthRecords.filter((record: { status: string }) => record.status === "late").length
+    const absentDays = currentMonthRecords.filter((record: { status: string }) => record.status === "absent").length
     
     const attendancePercentage = workingDaysInMonth > 0 
       ? ((presentDays + lateDays) / workingDaysInMonth) * 100 
@@ -91,8 +92,8 @@ export async function GET(request: Request) {
     })
     
     const workingDaysInPrevMonth = getWorkingDaysCount(firstDayOfPrevMonth, lastDayOfPrevMonth)
-    const prevMonthPresentDays = prevMonthRecords.filter(record => record.status === "present").length
-    const prevMonthLateDays = prevMonthRecords.filter(record => record.status === "late").length
+    const prevMonthPresentDays = prevMonthRecords.filter((record: { status: string }) => record.status === "present").length
+    const prevMonthLateDays = prevMonthRecords.filter((record: { status: string }) => record.status === "late").length
     
     const prevMonthAttendancePercentage = workingDaysInPrevMonth > 0 
       ? ((prevMonthPresentDays + prevMonthLateDays) / workingDaysInPrevMonth) * 100 

@@ -1,10 +1,10 @@
 "use client"
 
-import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "@/lib/utils"
-import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+import { cva, type VariantProps } from "class-variance-authority"
+import { Menu } from "lucide-react"
+import * as React from "react"
 
 // Sidebar
 interface SidebarContextValue {
@@ -81,7 +81,7 @@ export function Sidebar({ className, variant, collapsible, ...props }: SidebarPr
 }
 
 // Sidebar Trigger - Adding the missing component
-interface SidebarTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+type SidebarTriggerProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export function SidebarTrigger({ className, ...props }: SidebarTriggerProps) {
   const { setIsOpen } = useSidebar()
@@ -101,58 +101,56 @@ export function SidebarTrigger({ className, ...props }: SidebarTriggerProps) {
 }
 
 // Sidebar Header
-interface SidebarHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
+type SidebarHeaderProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function SidebarHeader({ className, ...props }: SidebarHeaderProps) {
   return <div className={cn("px-3 py-2", className)} {...props} />
 }
 
 // Sidebar Content
-interface SidebarContentProps extends React.HTMLAttributes<HTMLDivElement> {}
+type SidebarContentProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function SidebarContent({ className, ...props }: SidebarContentProps) {
   return <div className={cn("flex flex-col gap-2 px-3 py-2", className)} {...props} />
 }
 
 // Sidebar Footer
-interface SidebarFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
+type SidebarFooterProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function SidebarFooter({ className, ...props }: SidebarFooterProps) {
   return <div className={cn("mt-auto px-3 py-2", className)} {...props} />
 }
 
 // Sidebar Group
-interface SidebarGroupProps extends React.HTMLAttributes<HTMLDivElement> {}
+type SidebarGroupProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function SidebarGroup({ className, ...props }: SidebarGroupProps) {
   return <div className={cn("flex flex-col gap-1", className)} {...props} />
 }
 
 // Sidebar Group Label
-interface SidebarGroupLabelProps extends React.HTMLAttributes<HTMLDivElement> {
-  asChild?: boolean
-}
+type SidebarGroupLabelProps = React.HTMLAttributes<HTMLDivElement>;
 
-export function SidebarGroupLabel({ className, asChild = false, ...props }: SidebarGroupLabelProps) {
+export function SidebarGroupLabel({ className, ...props }: SidebarGroupLabelProps) {
   return <div className={cn("px-3 py-1.5 text-xs font-medium text-muted-foreground", className)} {...props} />
 }
 
 // Sidebar Group Content
-interface SidebarGroupContentProps extends React.HTMLAttributes<HTMLDivElement> {}
+type SidebarGroupContentProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function SidebarGroupContent({ className, ...props }: SidebarGroupContentProps) {
   return <div className={cn("space-y-1", className)} {...props} />
 }
 
 // Sidebar Menu
-interface SidebarMenuProps extends React.HTMLAttributes<HTMLUListElement> {}
+type SidebarMenuProps = React.HTMLAttributes<HTMLUListElement>;
 
 export function SidebarMenu({ className, ...props }: SidebarMenuProps) {
   return <ul className={cn("space-y-1", className)} {...props} />
 }
 
 // Sidebar Menu Item
-interface SidebarMenuItemProps extends React.HTMLAttributes<HTMLLIElement> {}
+type SidebarMenuItemProps = React.HTMLAttributes<HTMLLIElement>;
 
 export function SidebarMenuItem({ className, ...props }: SidebarMenuItemProps) {
   return <li className={cn("", className)} {...props} />
@@ -202,7 +200,7 @@ export const SidebarMenuButton = React.forwardRef<HTMLButtonElement, SidebarMenu
 SidebarMenuButton.displayName = "SidebarMenuButton"
 
 // Sidebar Toggle
-interface SidebarToggleProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+type SidebarToggleProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export function SidebarToggle({ className, ...props }: SidebarToggleProps) {
   const { setIsOpen } = useSidebar()
@@ -220,7 +218,7 @@ export function SidebarToggle({ className, ...props }: SidebarToggleProps) {
 }
 
 // Sidebar Collapse
-interface SidebarCollapseProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+type SidebarCollapseProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export function SidebarCollapse({ className, ...props }: SidebarCollapseProps) {
   const { setIsCollapsed } = useSidebar()

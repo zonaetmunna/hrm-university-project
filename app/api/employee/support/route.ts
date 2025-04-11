@@ -1,9 +1,44 @@
 import { authOptions } from "@/lib/auth";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-const prisma = new PrismaClient();
+// Add new interfaces for type safety
+interface TicketWhereCondition {
+  status?: string;
+  department?: string;
+  creatorId?: string;
+  assignedId?: string;
+  OR?: Array<{
+    department?: string;
+    creatorId?: string;
+    assignedId?: string;
+  }>;
+}
+
+interface Ticket {
+  id: string;
+  title: string;
+  description: string;
+  department: string;
+  status: string;
+  priority: string;
+  creatorId: string;
+  assignedId?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface TicketData {
+  id?: string;
+  title?: string;
+  description?: string;
+  department?: string;
+  status?: string;
+  priority?: string;
+  assignedId?: string;
+  message?: string;
+}
 
 /**
  * GET /api/employee/support
@@ -101,7 +136,7 @@ export async function GET(request: NextRequest) {
     }
     
     // Build the where condition based on filters and user role
-    let whereCondition: any = {};
+    let whereCondition: TicketWhereCondition = {};
     
     // Apply status filter if provided
     if (status) {
@@ -156,8 +191,8 @@ export async function GET(request: NextRequest) {
     });
 
     // Get counts for dashboard stats
-    const activeTickets = tickets.filter((ticket: any) => ticket.status !== 'Resolved').length;
-    const resolvedTickets = tickets.filter((ticket: any) => ticket.status === 'Resolved').length;
+    const activeTickets = tickets.filter((ticket: Ticket) => ticket.status !== 'Resolved').length;
+    const resolvedTickets = tickets.filter((ticket: Ticket) => ticket.status === 'Resolved').length;
 
     return NextResponse.json({
       tickets,
@@ -203,7 +238,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const data = await request.json();
+    const data = await request.json() as TicketData;
 
     // Validate required fields
     if (!data.title || !data.description || !data.department) {
@@ -278,7 +313,7 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    const data = await request.json();
+    const data = await request.json() as TicketData;
 
     if (!data.id) {
       return NextResponse.json(
@@ -325,7 +360,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // Handle updating ticket properties
-    const updateData: any = {};
+    const updateData: Partial<Ticket> = {};
     
     // Only staff can update these fields
     if (user.role === 'admin' || user.role === 'hr' || existingTicket.assignedId === user.id) {
