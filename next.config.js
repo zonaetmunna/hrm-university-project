@@ -12,6 +12,12 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // Ensure Prisma can generate in serverless environments
+  env: {
+    PRISMA_GENERATE: 'true',
+  },
+  // For Vercel deployments
+  serverExternalPackages: ['@prisma/client', 'bcryptjs'],
 }
 
 module.exports = nextConfig 
